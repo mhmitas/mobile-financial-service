@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Container from '../../components/common/Container';
 import { useForm } from 'react-hook-form';
-import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
-import AuthenticationErrMessage from '../../components/common/AuthenticationErrMessage';
 import { AuthPageTitle } from './Login';
+import { saveUserInDB } from '../../utils/saveUserInDB';
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -16,84 +14,82 @@ const Signup = () => {
         handleSubmit,
         formState: { errors },
         reset
-    } = useForm()
-    const { createUser, setAuthLoading, updateUserProfile } = useAuth()
+    } = useForm();
 
     const onSubmit = async (data) => {
+        // console.log(data);
         setProcessing(true)
         try {
-            const { user } = await createUser(data.email, data.password)
-            console.log(user);
-            await updateUserProfile(data?.name)
-            toast.success('Sign Up Success')
-            reset()
-            navigate('/')
+            const res = await saveUserInDB(data)
+            if (res.data?.insertedId) {
+                toast.success('Sign Up Success')
+                reset()
+                navigate('/')
+            }
             setProcessing(false)
         } catch (err) {
             console.error(err);
             setErrorMessage(err.message?.slice(10))
             setProcessing(false)
-            setAuthLoading(false)
         }
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen mt-10 mb-16">
+        <div className="flex justify-center items-center min-h-screen py-5">
             <div className="card max-w-md w-full">
                 <h1 className='text-3xl mb-10 text-center'><AuthPageTitle /></h1>
-                <div className="card-body shadow-lg rounded-md border">
+                <div className="card-body shadow-lg rounded-md border relative">
                     <h2 className="text-lg font-semibold text-center">Create a new account.</h2>
+                    {/* Registration form */}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control">
-                            <label className="label" htmlFor="name">
+                            <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
                             <input
                                 type="text"
-                                id="name"
-                                {...register('fullName')} required
+                                {...register('name')} required
                                 className={`input input-bordered`}
                             />
                         </div>
                         <div className="form-control">
-                            <label className="label" htmlFor="username">
-                                <span className="label-text">Username</span>
-                            </label>
-                            <input
-                                type="text"
-                                id="username"
-                                {...register('userName')} required
-                                className={`input input-bordered`}
-                            />
-                            {errors.username && <span className="text-error">{errors.username.message}</span>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label" htmlFor="email">
+                            <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
-                                id="email"
                                 {...register('email')} required
                                 className={`input input-bordered`}
                             />
                         </div>
                         <div className="form-control">
-                            <label className="label" htmlFor="password">
-                                <span className="label-text">Password</span>
+                            <label className="label">
+                                <span className="label-text">Phone Number</span>
                             </label>
                             <input
-                                type="password"
-                                id="password"
-                                {...register('password')} required
+                                type="tel"
+                                {...register('number')} required
                                 className={`input input-bordered`}
                             />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Create a 5 digit Pin</span>
+                            </label>
+                            <input
+                                type="number"
+                                {...register('pin', { required: true, minLength: 5, maxLength: 5 })} required
+                                className={`input input-bordered`}
+                            />
+                            {errors.pin && errors.pin.type === "minLength" && (<span className='text-error'>Pin must be 5 numbers</span>)}
+                            {errors.pin && errors.pin.type === "maxLength" && (<span className='text-error'>Pin must be 5 numbers</span>)}
                         </div>
                         <div className="form-control mt-6">
                             <button type="submit" className="btn btn-primary text-lg">Sign Up</button>
                         </div>
                     </form>
                     <p className='my-1'>Already have an account? Please <Link to="/login" className='link link-primary'>Log in</Link> </p>
+                    {processing && <div className='absolute inset-0 bg-black/10 flex items-center justify-center rounded-lg'><span className='loading loading-spinner loading-lg text-primary m-auto'></span></div>}
                 </div>
             </div>
         </div>

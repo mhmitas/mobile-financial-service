@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const Home = () => {
     let user = true;
-    let userRole = "user"
+    let userRole = "admin"
 
     if (!user) {
         return <Navigate to="/login" />

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const PrivetRoute = ({ children }) => {
 
-    let user = true
+    let user = false
 
     if (user) {
         return children

@@ -8,7 +8,7 @@ const Sidebar = () => {
         <aside className={`fixed w-64 inset-y-0 left-0 bg-base-100 border-r`}>
             <SidebarHeader />
             <div className='divider mt-0 mb-2'></div>
-            <ul className='menu md:text-lg gap-2'>
+            <ul className='menu sm:text-lg gap-2'>
                 {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
             </ul>
         </aside>

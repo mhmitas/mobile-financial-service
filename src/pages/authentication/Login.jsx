@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import Container from '../../components/common/Container';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { identifyInput } from '../../utils/utils';
+import { axiosInstance } from '../../hooks/useAxiosSecure';
 
 const Login = () => {
-    const { loginUser } = useAuth()
     const navigate = useNavigate()
     const [processing, setProcessing] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null)
     const {
         register,
         handleSubmit,
@@ -19,8 +17,19 @@ const Login = () => {
     const onSubmit = async (data) => {
         setProcessing(true)
         try {
-            const { user } = await loginUser(data?.email, data?.password)
-            console.log(user);
+            console.log(data);
+            console.log(identifyInput(data.userIdentity));
+            let email = null;
+            let number = null;
+            const inputType = identifyInput(data.userIdentity)
+            if (inputType === "email") {
+                email = data.userIdentity;
+            } else {
+                number = data.userIdentity
+            }
+            const res = await axiosInstance.post("/api/login", { email, number, pin: data?.pin })
+            console.log(res.data);
+            return
             toast.success('Log in success');
             setProcessing(false)
             setErrorMessage('')
@@ -40,28 +49,27 @@ const Login = () => {
                     <h2 className="text-lg font-semibold text-center">Welcome back! <br />Please Log in to continue.</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control">
-                            <label className="label" htmlFor="email">
-                                <span className="label-text">Email</span>
+                            <label className="label">
+                                <span className="label-text">Your Email or Phone  Number</span>
                             </label>
                             <input
-                                type="email"
-                                id="email"
-                                {...register('email', { required: 'Email is required' })}
-                                className={`input input-bordered ${errors.email ? 'input-error' : ''}`}
+                                type="text"
+                                {...register('userIdentity')}
+                                className={`input input-bordered`}
                             />
                             {errors.email && <span className="text-error">{errors.email.message}</span>}
                         </div>
-                        <div className="form-control mt-1">
-                            <label className="label" htmlFor="password">
-                                <span className="label-text">Password</span>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Enter Your Pin</span>
                             </label>
                             <input
-                                type="password"
-                                id="password"
-                                {...register('password', { required: 'Password is required' })}
-                                className={`input input-bordered ${errors.password ? 'input-error' : ''}`}
+                                type="number"
+                                {...register('pin', { required: true, minLength: 5, maxLength: 5 })} required
+                                className={`input input-bordered`}
                             />
-                            {errors.password && <span className="text-error">{errors.password.message}</span>}
+                            {errors.pin && errors.pin.type === "minLength" && (<span className='text-error'>Pin must be 5 numbers</span>)}
+                            {errors.pin && errors.pin.type === "maxLength" && (<span className='text-error'>Pin must be 5 numbers</span>)}
                         </div>
                         <div className="form-control mt-6">
                             <button type="submit" className="btn btn-primary text-lg">Sign In</button>

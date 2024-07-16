@@ -8,7 +8,7 @@ export default {
     extend: {},
   },
   daisyui: {
-    themes: [
+    themes: ["dark",
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
@@ -24,6 +24,7 @@ export default {
           "base-200": "#f0f2f5",
           "base-300": "#f0f2f5",
           'base-content': 'black',
+          'neutral-content': '#ffffff',
         },
       },
     ],

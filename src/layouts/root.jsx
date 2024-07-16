@@ -7,7 +7,7 @@ const Root = () => {
     return (
         <section className='max-w-screen-2xl mx-auto w-full'>
             <Sidebar />
-            <section className='flex flex-col md:ml-64'>
+            <section className='flex flex-col sm:ml-64'>
                 <SimpleHeader />
                 <div className='flex-1'>
                     <Outlet />

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Container from '../../components/common/Container';
 import { Link, useNavigate } from 'react-router-dom';
-import ProviderSignIn from '../../components/ProviderSignIn/ProviderSignIn';
-import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';

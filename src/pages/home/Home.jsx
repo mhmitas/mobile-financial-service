@@ -1,9 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Home = () => {
-    let user = true;
-    let userRole = "admin"
+    const { user, authLoading } = useAuth()
+    let userRole = user?.role
+    console.log(user);
+
+    if (authLoading) {
+        return <div className='absolute top-1/2 left-1/2'>
+            <span className='loading loading-spinner loading-lg text-primary'></span>
+        </div>
+    }
 
     if (!user) {
         return <Navigate to="/login" />
@@ -15,6 +23,8 @@ const Home = () => {
         return <Navigate to="/agent-dashboard" />
     } else if (user && userRole === "admin") {
         return <Navigate to="/admin-dashboard" />
+    } else {
+        return <Navigate to="/login" />
     }
 
 };

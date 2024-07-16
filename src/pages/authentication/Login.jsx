@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { identifyInput } from '../../utils/utils';
 import { axiosInstance } from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -13,12 +14,11 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm()
+    const { setUser } = useAuth()
 
     const onSubmit = async (data) => {
         setProcessing(true)
         try {
-            console.log(data);
-            console.log(identifyInput(data.userIdentity));
             let email = null;
             let number = null;
             const inputType = identifyInput(data.userIdentity)
@@ -29,14 +29,13 @@ const Login = () => {
             }
             const res = await axiosInstance.post("/api/login", { email, number, pin: data?.pin })
             console.log(res.data);
-            return
+            setUser(res.data)
             toast.success('Log in success');
             setProcessing(false)
-            setErrorMessage('')
             navigate('/')
         } catch (err) {
-            console.error(err);
-            setErrorMessage(err.message?.slice(10))
+            console.error("Login error:", err);
+            toast.error(err?.response?.data?.message)
             setProcessing(false)
         }
     }
@@ -87,6 +86,6 @@ export default Login;
 
 export function AuthPageTitle(params) {
     return (
-        <span className='font-bold bg-gradient-to-r from-rose-500 via-blue-600 to-blue-500 text-white px-[12px] py-[6px] rounded-md cursor-default'>MhFins</span>
+        <span className='font-bold bg-gradient-to-r from-rose-500 via-blue-600 to-blue-500 text-white px-[12px] py-1 rounded-md cursor-default'>MhFins</span>
     )
 }

@@ -1,52 +1,41 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import { app } from '../firebase/firebase.config';
+import { createContext, useEffect, useState } from "react";
+import { axiosInstance } from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [authLoading, setAuthLoading] = useState(true)
 
-    const auth = getAuth(app)
-
-    function createUser(email, password) {
-        return createUserWithEmailAndPassword(auth, email, password)
-    }
-    function loginUser(email, password) {
-        return signInWithEmailAndPassword(auth, email, password)
-    }
-    function providerSignIn(provider) {
-        return signInWithPopup(auth, provider)
-    }
     function logOutUser() {
-        return signOut(auth)
-    }
-    function updateUserProfile(name = null, photo = null) {
-        return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photo
-        })
+        try {
+            axiosInstance("/api/logout")
+            setUser(null)
+            setAuthLoading(false)
+        } catch (err) {
+            console.error("log out error:", err);
+            setAuthLoading(false)
+        }
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            console.log('currentUser:', currentUser);
-            setUser(currentUser)
-            setAuthLoading(false)
-        })
-        return () => unsubscribe()
+        axiosInstance.get("/api/user", { withCredentials: true }, { headers: { Authorization: "Bearer myToken" } })
+            .then((res) => {
+                console.log("user from...", res.data);
+                setUser(res.data)
+                setAuthLoading(false)
+            }).catch(err => {
+                console.error(err);
+                setAuthLoading(false)
+            })
     }, [])
 
     const authInfo = {
         user,
+        setUser,
         authLoading,
         setAuthLoading,
-        createUser,
-        loginUser,
-        providerSignIn,
         logOutUser,
-        updateUserProfile,
     }
-
     return (
         <AuthContext.Provider value={authInfo}>
             {children}

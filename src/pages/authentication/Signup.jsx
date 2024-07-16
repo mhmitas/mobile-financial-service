@@ -4,11 +4,14 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AuthPageTitle } from './Login';
 import { saveUserInDB } from '../../utils/saveUserInDB';
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Signup = () => {
     const navigate = useNavigate()
     const [processing, setProcessing] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null)
+    const { setUser } = useAuth()
+    const axiosSecure = useAxiosSecure()
     const {
         register,
         handleSubmit,
@@ -22,6 +25,8 @@ const Signup = () => {
         try {
             const res = await saveUserInDB(data)
             if (res.data?.insertedId) {
+                const res = await axiosSecure("/api/user")
+                setUser(res.data)
                 toast.success('Sign Up Success')
                 reset()
                 navigate('/')

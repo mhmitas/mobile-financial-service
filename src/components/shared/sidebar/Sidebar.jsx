@@ -2,16 +2,36 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { userSidebarMenuItems } from './menu-items/menuItems';
 import { AuthPageTitle } from '../../../pages/authentication/Login';
+import { FaSignOutAlt } from 'react-icons/fa';
+import useAuth from '../../../hooks/useAuth';
 
 const Sidebar = () => {
+    const { logOutUser } = useAuth()
+
     return (
-        <aside className={`fixed w-64 inset-y-0 left-0 bg-base-100 border-r`}>
-            <SidebarHeader />
-            <div className='divider mt-0 mb-2'></div>
-            <ul className='menu sm:text-lg gap-2'>
-                {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
-            </ul>
-        </aside>
+        <div
+            className={`fixed bg-base-200 duration-200 md:translate-x-0 overflow-y-auto z-20 h-screen w-64 border`}
+        >
+            <div className='flex flex-col justify-between h-full'>
+                <div>
+                    <SidebarHeader />
+                    <div className='divider mt-0 mb-2'></div>
+                    <ul className='menu sm:text-lg gap-2'>
+                        {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
+                    </ul>
+                </div>
+                <ul className='menu sm:text-lg gap-2 mb-2'>
+                    <li>
+                        <button
+                            onClick={logOutUser}
+                            className='flex items-center'>
+                            <FaSignOutAlt size={20} />
+                            <span className='pb-[2px]'>Log Out</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     );
 };
 
@@ -21,7 +41,7 @@ export default Sidebar;
 function SidebarMenuItem({ name, path, Icon }) {
     return (
         <li>
-            <NavLink className='flex gap-1 items-center' to={path}><Icon size={23} /> <span>{name}</span></NavLink>
+            <NavLink className='flex gap-2 items-center' to={path}><Icon size={23} /> <span>{name}</span></NavLink>
         </li>
     )
 }

@@ -8,7 +8,7 @@ export default {
     extend: {},
   },
   daisyui: {
-    themes: ['dark',
+    themes: [
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
@@ -25,24 +25,29 @@ export default {
           "base-300": "#f0f2f5",
           'base-content': 'black',
         },
-        dark: {
-          ...require("daisyui/src/theming/themes")["dark"],
-          "primary": "#3b82f6",
-          "primary-focus": "#2779bd",
-          "primary-content": "#ffffff",
-          "secondary": "#6366f1",
-          "secondary-content": "#ffffff",
-          "secondary-focus": "#f9d002",
-          "accent": "#38c172",
-          "accent-focus": "#2d995b",
-          "accent-content": "#ffffff",
-          "base-100": "#121212", // 1d1e1f
-          "base-200": "#101010",
-          "base-300": "#101010",
-          'base-content': '#eceef2',
-        },
       },
     ],
   },
   plugins: [require('daisyui')],
 }
+
+
+/* 
+
+dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+    "primary": "#3b82f6",
+      "primary-focus": "#2779bd",
+        "primary-content": "#ffffff",
+          "secondary": "#6366f1",
+            "secondary-content": "#ffffff",
+              "secondary-focus": "#f9d002",
+                "accent": "#38c172",
+                  "accent-focus": "#2d995b",
+                    "accent-content": "#ffffff",
+                      "base-100": "#121212", // 1d1e1f
+                        "base-200": "#101010",
+                          "base-300": "#101010",
+                            'base-content': '#eceef2',
+        },
+*/

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import AuthenticationErrMessage from '../../components/common/AuthenticationErrMessage';
+import { AuthPageTitle } from './Login';
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -37,44 +38,65 @@ const Signup = () => {
     }
 
     return (
-        <Container>
-            <div className='my-12'>
-                <h3 className='text-2xl sm:text-4xl font-semibold text-center mb-6'><Link to='/'>Ipsum</Link></h3>
-                <div className='max-w-md mx-auto bg-base-100 p-4 sm:p-6 md:p-8 rounded-md shadow-lg '>
-                    <h3 className='text-2xl text-center font-semibold pb-4'>Create a new account</h3>
-                    <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
-                        {errorMessage && <AuthenticationErrMessage text2={errorMessage} />}
+        <div className="flex justify-center items-center min-h-screen mt-10 mb-16">
+            <div className="card max-w-md w-full">
+                <h1 className='text-3xl mb-10 text-center'><AuthPageTitle /></h1>
+                <div className="card-body shadow-lg rounded-md border">
+                    <h2 className="text-lg font-semibold text-center">Create a new account.</h2>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control">
-                            <label className="label">
+                            <label className="label" htmlFor="name">
                                 <span className="label-text">Name</span>
                             </label>
-                            <input {...register('name')} type="text" placeholder="Name" className="input input-bordered" required />
+                            <input
+                                type="text"
+                                id="name"
+                                {...register('fullName')} required
+                                className={`input input-bordered`}
+                            />
                         </div>
                         <div className="form-control">
-                            <label className="label">
+                            <label className="label" htmlFor="username">
+                                <span className="label-text">Username</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                {...register('userName')} required
+                                className={`input input-bordered`}
+                            />
+                            {errors.username && <span className="text-error">{errors.username.message}</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label" htmlFor="email">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input {...register('email')} type="email" placeholder="email" className="input input-bordered" required />
+                            <input
+                                type="email"
+                                id="email"
+                                {...register('email')} required
+                                className={`input input-bordered`}
+                            />
                         </div>
                         <div className="form-control">
-                            <label className="label">
+                            <label className="label" htmlFor="password">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input {...register('password')} type="text" placeholder="Password" className="input input-bordered" required />
+                            <input
+                                type="password"
+                                id="password"
+                                {...register('password')} required
+                                className={`input input-bordered`}
+                            />
                         </div>
-                        <div className="flex items-center justify-center pt-3">
-                            <button disabled={processing} className='w-full btn btn-primary text-lg' type='submit' >
-                                {processing ?
-                                    <span className='loading loading-spinner text-primary'></span> :
-                                    'Log in'
-                                }
-                            </button>
+                        <div className="form-control mt-6">
+                            <button type="submit" className="btn btn-primary text-lg">Sign Up</button>
                         </div>
-                        <p className='pt-2'>Already have an account? Please <Link to={'/login'} className='link link-primary'>Log in</Link></p>
                     </form>
+                    <p className='my-1'>Already have an account? Please <Link to="/login" className='link link-primary'>Log in</Link> </p>
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 

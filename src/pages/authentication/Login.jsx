@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
-import AuthenticationErrMessage from '../../components/common/AuthenticationErrMessage';
 
 const Login = () => {
     const { loginUser } = useAuth()
@@ -34,41 +33,52 @@ const Login = () => {
     }
 
     return (
-        <Container>
-            <div className='my-12 border-base-200'>
-                <h3 className='text-2xl sm:text-4xl font-semibold text-center mb-6'><Link to='/'>Ipsum</Link></h3>
-                <div className='max-w-md mx-auto bg-base-100 p-4 sm:p-6 md:p-8 rounded-md shadow-lg '>
-                    <h3 className='text-2xl text-center font-semibold pb-4'>Log in to Ipsum</h3>
-                    <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
-                        {errorMessage && <AuthenticationErrMessage />}
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="card w-96">
+                <h1 className='text-3xl mb-10 text-center'><AuthPageTitle /></h1>
+                <div className="card-body shadow-lg rounded-md border">
+                    <h2 className="text-lg font-semibold text-center">Welcome back! <br />Please Log in to continue.</h2>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control">
-                            <label className="label">
+                            <label className="label" htmlFor="email">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input {...register('email')} type="email" placeholder="email" className="input input-bordered" required />
+                            <input
+                                type="email"
+                                id="email"
+                                {...register('email', { required: 'Email is required' })}
+                                className={`input input-bordered ${errors.email ? 'input-error' : ''}`}
+                            />
+                            {errors.email && <span className="text-error">{errors.email.message}</span>}
                         </div>
-                        <div className="form-control">
-                            <label className="label">
+                        <div className="form-control mt-1">
+                            <label className="label" htmlFor="password">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input {...register('password')} type="text" placeholder="Password" className="input input-bordered" required />
+                            <input
+                                type="password"
+                                id="password"
+                                {...register('password', { required: 'Password is required' })}
+                                className={`input input-bordered ${errors.password ? 'input-error' : ''}`}
+                            />
+                            {errors.password && <span className="text-error">{errors.password.message}</span>}
                         </div>
-                        <div className="flex items-center justify-center pt-3">
-                            <button disabled={processing} className='w-full btn btn-primary text-lg' type='submit' >
-                                {processing ?
-                                    <span className='loading loading-spinner text-primary'></span> :
-                                    'Log in'
-                                }
-                            </button>
+                        <div className="form-control mt-6">
+                            <button type="submit" className="btn btn-primary text-lg">Sign In</button>
                         </div>
-                        <p className='pt-2'>Don't have an account? Please <Link to={'/sign-up'} className='link link-primary'>Sign up</Link></p>
                     </form>
+                    <p className='my-1'>Don't have an account? Please <Link to="/sign-up" className='link link-primary'>Sign Up</Link> </p>
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 
 export default Login;
 
-// shadow-blue-500/15 hover:shadow-blue-500/25 duration-300 transition
+
+export function AuthPageTitle(params) {
+    return (
+        <span className='font-bold bg-gradient-to-r from-rose-500 via-blue-600 to-blue-500 text-white px-[12px] py-[6px] rounded-md cursor-default'>MhFins</span>
+    )
+}

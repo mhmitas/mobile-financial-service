@@ -7,11 +7,14 @@ import Signup from '../pages/authentication/Signup';
 import UserDashboard from '../pages/user/UserDashboard';
 import AgentDashboard from '../pages/agent/AgentDashboard';
 import AdminDashboard from '../pages/admin/AdminDashboard';
+import PrivetRoute from './PrivetRoute';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Root />,
+        element: <PrivetRoute>
+            <Root />
+        </PrivetRoute>,
         children: [
             {
                 path: '/',

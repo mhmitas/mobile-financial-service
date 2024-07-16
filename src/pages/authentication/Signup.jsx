@@ -1,7 +1,5 @@
-import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ProviderSignIn from '../../components/ProviderSignIn/ProviderSignIn';
 import Container from '../../components/common/Container';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
@@ -65,18 +63,14 @@ const Signup = () => {
                             <input {...register('password')} type="text" placeholder="Password" className="input input-bordered" required />
                         </div>
                         <div className="flex items-center justify-center pt-3">
-                            <Button disabled={processing} size='large' className='w-full ' variant='contained' color='secondary' type='submit' sx={{ textTransform: 'none' }} >
-                                <span className='text-lg font-semibold'>
-                                    {processing ?
-                                        <span className='loading loading-spinner text-primary'></span> :
-                                        'Sign Up'
-                                    }
-                                </span>
-                            </Button>
+                            <button disabled={processing} className='w-full btn btn-primary text-lg' type='submit' >
+                                {processing ?
+                                    <span className='loading loading-spinner text-primary'></span> :
+                                    'Log in'
+                                }
+                            </button>
                         </div>
                         <p className='pt-2'>Already have an account? Please <Link to={'/login'} className='link link-primary'>Log in</Link></p>
-                        <div className='divider py-6'>Or continue with</div>
-                        <ProviderSignIn />
                     </form>
                 </div>
             </div>

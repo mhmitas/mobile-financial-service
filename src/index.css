@@ -7,3 +7,24 @@
 /* --------------
 daisyui myTheme
 ---------------- */
+
+.active-link {
+    @apply text-primary font-semibold
+}
+
+.nav-link {
+    @apply px-2 pt-1 pb-[6px] rounded-md hover:text-primary
+}
+
+.border-color {
+    @apply border-[#1a1d31]
+}
+
+.prevent-select {
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}

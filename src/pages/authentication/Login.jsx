@@ -37,7 +37,7 @@ const Login = () => {
 
     return (
         <Container>
-            <div className='my-12'>
+            <div className='my-12 border-base-200'>
                 <h3 className='text-2xl sm:text-4xl font-semibold text-center mb-6'><Link to='/'>Ipsum</Link></h3>
                 <div className='max-w-md mx-auto bg-base-100 p-4 sm:p-6 md:p-8 rounded-md shadow-lg '>
                     <h3 className='text-2xl text-center font-semibold pb-4'>Log in to Ipsum</h3>
@@ -56,18 +56,14 @@ const Login = () => {
                             <input {...register('password')} type="text" placeholder="Password" className="input input-bordered" required />
                         </div>
                         <div className="flex items-center justify-center pt-3">
-                            <Button disabled={processing} size='large' className='w-full ' variant='contained' color='primary' type='submit' sx={{ textTransform: 'none' }} >
-                                <span className='text-lg font-semibold'>
-                                    {processing ?
-                                        <span className='loading loading-spinner text-primary'></span> :
-                                        'Log in'
-                                    }
-                                </span>
-                            </Button>
+                            <button disabled={processing} className='w-full btn btn-primary text-lg' type='submit' >
+                                {processing ?
+                                    <span className='loading loading-spinner text-primary'></span> :
+                                    'Log in'
+                                }
+                            </button>
                         </div>
                         <p className='pt-2'>Don't have an account? Please <Link to={'/sign-up'} className='link link-primary'>Sign up</Link></p>
-                        <div className='divider py-6'>Or continue with</div>
-                        <ProviderSignIn />
                     </form>
                 </div>
             </div>

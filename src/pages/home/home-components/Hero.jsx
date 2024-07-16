@@ -1,6 +1,5 @@
-import { Button, Link as muiLink } from '@mui/material';
 import React from 'react';
-// bg-gradient-to-b from-blue-700/30 via-base-100 to-base-100
+
 const Hero = () => {
     return (
         <div className='w-full'>
@@ -12,13 +11,7 @@ const Hero = () => {
                     We provide the best solutions for your business.
                 </p>
                 <div className='flex gap-2'>
-                    <Button sx={{ borderRadius: 100 }} variant='contained'>
-                        Learn More
-                    </Button>
-                    {/* <button className='btn btn-primary text-white'>DaisyUI</button> */}
-                    <Button sx={{ borderRadius: 100 }} variant='outlined'>
-                        Contact Us
-                    </Button>
+                    <button className='btn btn-primary'>Hello</button>
                 </div>
             </div>
         </div>

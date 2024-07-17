@@ -38,7 +38,6 @@ const Signup = () => {
             setProcessing(false)
         }
     }
-    console.log(processing);
 
     if (authLoading) {
         return <LoadingSpinner />

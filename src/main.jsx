@@ -12,6 +12,8 @@ import {
 
 const queryClient = new QueryClient()
 
+console.log("Todo: Please check: server url, mongo uri");
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>

@@ -4,6 +4,8 @@ import { adminSidebarMenuItems, agentSidebarMenuItems, userSidebarMenuItems } fr
 import { AuthPageTitle } from '../../../pages/authentication/Login';
 import { FaSignOutAlt } from 'react-icons/fa';
 import useAuth from '../../../hooks/useAuth';
+import ApplyToBecomeAnAgent from '../../user-components/ApplyToBecomeAnAgent';
+
 
 const Sidebar = () => {
     const { user, authLoading, logOutUser } = useAuth()
@@ -18,9 +20,14 @@ const Sidebar = () => {
                     <div className='divider mt-0 mb-2'></div>
                     {authLoading && <span>Loading...</span>}
                     {user?.role === "user" &&
-                        <ul className='menu gap-2'>
-                            {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
-                        </ul>
+                        <>
+                            <ul className='menu gap-2'>
+                                {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
+                            </ul>
+                            <div className='text-center'>
+                                <ApplyToBecomeAnAgent />
+                            </div>
+                        </>
                     }
                     {user?.role === "agent" &&
                         <ul className='menu gap-2'>

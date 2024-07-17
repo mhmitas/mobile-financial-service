@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
 
     function logOutUser() {
         try {
-            axiosInstance("/api/logout")
+            axiosInstance.post("/api/logout")
             setUser(null)
             setAuthLoading(false)
         } catch (err) {

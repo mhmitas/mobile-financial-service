@@ -8,14 +8,10 @@ import { MdSupervisorAccount } from 'react-icons/md';
 const userSidebarMenuItems = [
     { name: "Dashboard", path: "/user-dashboard", icon: LuLayoutDashboard },
     { name: "Transaction History", path: "/user-transaction-history", icon: FaHistory },
-    { name: "Transaction History", path: "/user-transaction-history", icon: FaHistory },
-    { name: "Transaction History", path: "/user-transaction-history", icon: FaHistory },
 ]
 
 const agentSidebarMenuItems = [
     { name: "Dashboard", path: "/agent-dashboard", icon: LuLayoutDashboard },
-    { name: "Transaction History", path: "/agent-transaction-history", icon: FaHistory },
-    { name: "Transaction History", path: "/agent-transaction-history", icon: FaHistory },
     { name: "Transaction History", path: "/agent-transaction-history", icon: FaHistory },
 ]
 const adminSidebarMenuItems = [

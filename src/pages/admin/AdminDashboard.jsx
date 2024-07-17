@@ -5,7 +5,7 @@ const AdminDashboard = () => {
     return (
         <div className="min-h-screen bg-base-100 my-container">
             <SimpleHeader subtitle={"Access & manage your account and transactions efficiently."} />
-            <div className="max-w-7xl mx-auto">
+            <div className="mx-auto">
                 {/* Overview Section */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div className="shadow p-6 rounded-lg border">
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
                     </div>
                     <div className="shadow p-6 rounded-lg border">
                         <h2 className="text-2xl font-semibold mb-2">Revenue</h2>
-                        <p className="text-4xl">$12,345</p>
+                        <p className="text-4xl">- - -</p>
                     </div>
                 </div>
 

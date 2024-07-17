@@ -46,7 +46,7 @@ const ApplyToBecomeAnAgentModal = ({ setShowModal, refetch }) => {
                         />
                     </div>
                     <div className='flex items-center justify-center gap-2'>
-                        <button onClick={() => setShowModal(false)} type="submit" className="btn btn-sm">Cancel</button>
+                        <button onClick={() => setShowModal(false)} type="button" className="btn btn-sm">Cancel</button>
                         <button type="submit" className="btn btn-primary btn-sm">Send</button>
                     </div>
                 </form>

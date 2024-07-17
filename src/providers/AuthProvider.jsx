@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        axiosInstance.get("/api/user", { withCredentials: true }, { headers: { Authorization: "Bearer myToken" } })
+        axiosInstance.get("/api/current-user", { withCredentials: true }, { headers: { Authorization: "Bearer myToken" } })
             .then((res) => {
                 console.log("user from...", res.data);
                 setUser(res.data)

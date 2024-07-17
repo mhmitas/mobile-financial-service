@@ -26,7 +26,7 @@ const Signup = () => {
         try {
             const res = await saveUserInDB(data)
             if (res?.data?.insertedId) {
-                const res = await axiosSecure("/api/user")
+                const res = await axiosSecure("/api/current-user")
                 setUser(res?.data)
                 toast.success('Sign Up Success')
                 reset()

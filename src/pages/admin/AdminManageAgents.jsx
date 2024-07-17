@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SimpleHeader from '../../components/shared/header/SimpleHeader';
+import queryString from 'query-string';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import AdminManageAgentsTabs from '../../components/admin-components/AdminManageAgentsTabs';
+import { useQuery } from '@tanstack/react-query';
+import AllAgentsTableRow from '../../components/table-rows/admin-table-rows/AllAgentsTableRow';
+import CenterLoadingComponent from '../../components/common/loading-components/CenterLoadingComponent';
 
 const AdminAgentsManagement = () => {
+    const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+
+    useEffect(() => {
+        if (!searchParams.get('role')) {
+            const query = queryString.stringifyUrl({
+                url: '/admin/manage-agents',
+                query: { role: 'agent' }
+            })
+            navigate(query, { replace: true })
+        }
+    }, [searchParams.get('role')])
+
+    const currentTab = searchParams.get("role")
+
+    const { data: users = [], isPending, refetch } = useQuery({
+        queryKey: ["admin-all-users", searchParams.get('role')],
+        queryFn: async () => {
+            if (currentTab === "agent") {
+                const { data } = await axiosSecure(`/api/admin/all-users?role=${searchParams.get("role")}`)
+                console.log(data);
+                return data
+            }
+            if (currentTab === "pending-agent-requests") {
+                const { data } = await axiosSecure(`/api/admin/pending-agent-requests`)
+                console.log(data);
+                return data
+            }
+        }
+    })
+
+
     return (
         <div className="my-container min-h-screen">
             <SimpleHeader title={"Manage Users"} />
@@ -11,64 +52,28 @@ const AdminAgentsManagement = () => {
                     <div className='flex flex-col md:flex-row justify-between mb-4'>
                         <h2 className="text-2xl font-semibold">Users</h2>
                         <div>
-                            <div role="tablist" className="tabs tabs-boxed">
-                                <a role="tab" className="tab">Pending</a>
-                                <a role="tab" className="tab tab-active">Agent Request</a>
-                                <a role="tab" className="tab">Tab 3</a>
-                            </div>
+                            <AdminManageAgentsTabs />
                         </div>
                         <div>
                             <input className='input input-bordered input-sm p-4' type="text" placeholder='🔎 Search user...' />
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        {isPending && <CenterLoadingComponent />}
+                        <table className="table mb-28">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Phone Number</th>
                                     <th>Role</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th className='text-center'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>001</td>
-                                    <td>John Doe</td>
-                                    <td>john@example.com</td>
-                                    <td>User</td>
-                                    <td className="text-warning">
-                                        <span className='badge badge-outline'>Pending</span>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-primary btn-sm mr-2">Approve</button>
-                                        <button className="btn btn-error btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>002</td>
-                                    <td>Jane Smith</td>
-                                    <td>jane@example.com</td>
-                                    <td>Agent</td>
-                                    <td className="text-success">Approved</td>
-                                    <td>
-                                        <button className="btn btn-primary btn-sm mr-2">Block</button>
-                                        <button className="btn btn-error btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>003</td>
-                                    <td>Mike Johnson</td>
-                                    <td>mike@example.com</td>
-                                    <td>Admin</td>
-                                    <td className="text-success">Approved</td>
-                                    <td>
-                                        <button className="btn btn-primary btn-sm mr-2">Approve</button>
-                                        <button className="btn btn-error btn-sm">Delete</button>
-                                    </td>
-                                </tr>
+                                {users?.map((user, index) => <AllAgentsTableRow user={user} index={index} key={index} refetch={refetch} />)}
                             </tbody>
                         </table>
                     </div>

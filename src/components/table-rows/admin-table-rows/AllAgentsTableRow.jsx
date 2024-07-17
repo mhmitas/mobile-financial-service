@@ -1,24 +1,31 @@
 import React from 'react';
-import { FaTrash } from "react-icons/fa";
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import toast, { } from "react-hot-toast";
+import { FaTrash } from 'react-icons/fa';
+import askConfirm from '../../modals/askConfirm';
+import toast from 'react-hot-toast';
 
-const AllUsersPageTableRow = ({ user, index, refetch }) => {
+const AllAgentsTableRow = ({ user, index, refetch }) => {
     const axiosSecure = useAxiosSecure()
     const { name, number, status, role, email } = user
 
-    async function handleUpdateUserRole() {
+    async function handleMakeAgent() {
         try {
-            const data = { role: "user", status: "verified", bonusAmount: 40 }
-            const res = await axiosSecure.patch(`/api/admin/approve-user/${email}`, data)
+            const ask = await askConfirm(
+                <span>Do you want to approve {name}'s request?</span>,
+                <span>10 thousand Taka will be deposited in the user's account as a bonus</span>
+            )
+            if (!ask) return;
+            const res = await axiosSecure.patch(`/api/admin/make-agent/${email}`, { bonusAmount: 10000 })
             console.log(res.data);
-            if (res.data?.updateUserRoleResult?.modifiedCount > 0) {
-                toast.success(`${name}'s role updated`)
-                refetch()
+            if (res.data?.result?.modifiedCount > 0) {
+                toast.success(name, "has come agent")
             }
+            refetch()
         } catch (err) {
-            console.error('user role update error:', err);
+            console.error(err);
         }
+
+
     }
 
 
@@ -36,9 +43,9 @@ const AllUsersPageTableRow = ({ user, index, refetch }) => {
             </td>
             <td className='flex flex-wrap items-center justify-center gap-2'>
                 <div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn btn-sm m-1">Change Status</div>
+                    <div tabIndex={0} role="button" className="btn btn-sm m-1">Change Role</div>
                     <ul tabIndex={0} className="dropdown-content menu rounded-lg z-[1] w-max bg-base-200 p-2 shadow">
-                        {role === "pending" && <li><button onClick={handleUpdateUserRole}>Approve</button></li>}
+                        {user?.wantToBecomeAgent && <li><button onClick={handleMakeAgent}>Make Agent</button></li>}
                         {role === "user" && <li><button>Block</button></li>}
                     </ul>
                 </div>
@@ -48,4 +55,4 @@ const AllUsersPageTableRow = ({ user, index, refetch }) => {
     );
 };
 
-export default AllUsersPageTableRow;
+export default AllAgentsTableRow;

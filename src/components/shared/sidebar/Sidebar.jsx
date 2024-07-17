@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { userSidebarMenuItems } from './menu-items/menuItems';
+import { adminSidebarMenuItems, agentSidebarMenuItems, userSidebarMenuItems } from './menu-items/menuItems';
 import { AuthPageTitle } from '../../../pages/authentication/Login';
 import { FaSignOutAlt } from 'react-icons/fa';
 import useAuth from '../../../hooks/useAuth';
 
 const Sidebar = () => {
-    const { logOutUser } = useAuth()
+    const { user, authLoading, logOutUser } = useAuth()
 
     return (
         <div
@@ -16,11 +16,24 @@ const Sidebar = () => {
                 <div>
                     <SidebarHeader />
                     <div className='divider mt-0 mb-2'></div>
-                    <ul className='menu sm:text-lg gap-2'>
-                        {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
-                    </ul>
+                    {authLoading && <span>Loading...</span>}
+                    {user?.role === "user" &&
+                        <ul className='menu gap-2'>
+                            {userSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
+                        </ul>
+                    }
+                    {user?.role === "agent" &&
+                        <ul className='menu gap-2'>
+                            {agentSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
+                        </ul>
+                    }
+                    {user?.role === "admin" &&
+                        <ul className='menu gap-2'>
+                            {adminSidebarMenuItems.map((item, index) => <SidebarMenuItem name={item.name} path={item.path} Icon={item.icon} key={index} />)}
+                        </ul>
+                    }
                 </div>
-                <ul className='menu sm:text-lg gap-2 mb-2'>
+                <ul className='menu gap-2 mb-2'>
                     <li>
                         <button
                             onClick={logOutUser}
@@ -41,7 +54,7 @@ export default Sidebar;
 function SidebarMenuItem({ name, path, Icon }) {
     return (
         <li>
-            <NavLink className='flex gap-2 items-center' to={path}><Icon size={23} /> <span>{name}</span></NavLink>
+            <NavLink className='flex gap-2 items-center' to={path}><Icon size={20} /> <span>{name}</span></NavLink>
         </li>
     )
 }

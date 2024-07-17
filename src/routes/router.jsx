@@ -8,6 +8,10 @@ import UserDashboard from '../pages/user/UserDashboard';
 import AgentDashboard from '../pages/agent/AgentDashboard';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import PrivetRoute from './PrivetRoute';
+import PendingApprovalPage from '../pages/pending-pages/UserPendingPage';
+import AdminUserManagement from '../pages/admin/AdminUserManagement';
+import AdminManageTransaction from '../pages/admin/AdminManageTransactions';
+import AdminAgentsManagement from '../pages/admin/AdminManageAgents';
 
 const router = createBrowserRouter([
     {
@@ -28,9 +32,22 @@ const router = createBrowserRouter([
                 path: '/agent-dashboard',
                 element: <AgentDashboard />
             },
+            // admin's pages
             {
                 path: '/admin-dashboard',
                 element: <AdminDashboard />
+            },
+            {
+                path: '/admin/manage-users',
+                element: <AdminUserManagement />
+            },
+            {
+                path: '/admin/manage-agents',
+                element: <AdminAgentsManagement />
+            },
+            {
+                path: '/admin/manage-transactions',
+                element: <AdminManageTransaction />
             },
         ],
     },
@@ -41,6 +58,12 @@ const router = createBrowserRouter([
     {
         path: '/sign-up',
         element: <Signup />
+    },
+    {
+        path: '/user-pending',
+        element: <PrivetRoute>
+            <PendingApprovalPage />
+        </PrivetRoute>
     },
 ])
 

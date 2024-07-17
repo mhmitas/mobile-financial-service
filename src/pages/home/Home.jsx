@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth';
 const Home = () => {
     const { user, authLoading } = useAuth()
     let userRole = user?.role
-    console.log(user);
+    console.log(userRole);
 
     if (authLoading) {
         return <div className='absolute top-1/2 left-1/2'>
@@ -23,6 +23,8 @@ const Home = () => {
         return <Navigate to="/agent-dashboard" />
     } else if (user && userRole === "admin") {
         return <Navigate to="/admin-dashboard" />
+    } else if (user && userRole === "pending") {
+        return <Navigate to="/user-pending" />
     } else {
         return <Navigate to="/login" />
     }

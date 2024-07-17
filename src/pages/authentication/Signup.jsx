@@ -11,7 +11,7 @@ import LoadingSpinner from '../../components/common/loading-components/LoadingSp
 const Signup = () => {
     const navigate = useNavigate()
     const [processing, setProcessing] = useState(false);
-    const { setUser } = useAuth()
+    const { setUser, user, authLoading } = useAuth()
     const axiosSecure = useAxiosSecure()
     const {
         register,
@@ -25,20 +25,20 @@ const Signup = () => {
         setProcessing(true)
         try {
             const res = await saveUserInDB(data)
-            if (res.data?.insertedId) {
+            if (res?.data?.insertedId) {
                 const res = await axiosSecure("/api/user")
-                setUser(res.data)
+                setUser(res?.data)
                 toast.success('Sign Up Success')
                 reset()
                 navigate('/')
             }
             setProcessing(false)
         } catch (err) {
-            console.error(err);
-            setErrorMessage(err.message?.slice(10))
+            console.error("sign up error:", err);
             setProcessing(false)
         }
     }
+    console.log(processing);
 
     if (authLoading) {
         return <LoadingSpinner />

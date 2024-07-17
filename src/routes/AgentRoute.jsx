@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const PrivetRoute = ({ children }) => {
+const AgentRoute = ({ children }) => {
     const { user, authLoading } = useAuth()
 
     if (authLoading) {
@@ -11,11 +11,11 @@ const PrivetRoute = ({ children }) => {
         </div>
     }
 
-    if (user) {
+    if (user && user?.role === "agent") {
         return children
     }
 
     return <Navigate replace={true} to="/login" />
 };
 
-export default PrivetRoute;
+export default AgentRoute;

@@ -12,6 +12,9 @@ import PendingApprovalPage from '../pages/pending-pages/UserPendingPage';
 import AdminUserManagement from '../pages/admin/AdminUserManagement';
 import AdminManageTransaction from '../pages/admin/AdminManageTransactions';
 import AdminAgentsManagement from '../pages/admin/AdminManageAgents';
+import AdminRoute from './AdminRoutes';
+import AgentRoute from './AgentRoute';
+import UserRoute from './UserRoute';
 
 const router = createBrowserRouter([
     {
@@ -24,30 +27,44 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Home />
             },
+            // user's routes
             {
                 path: '/user-dashboard',
-                element: <UserDashboard />
+                element: <UserRoute>
+                    <UserDashboard />
+                </UserRoute>
             },
+            // agent's routes
             {
                 path: '/agent-dashboard',
-                element: <AgentDashboard />
+                element: <AgentRoute>
+                    <AgentDashboard />
+                </AgentRoute>
             },
-            // admin's pages
+            // admin's routes
             {
                 path: '/admin-dashboard',
-                element: <AdminDashboard />
+                element: <AdminRoute>
+                    <AdminDashboard />
+                </AdminRoute>
             },
             {
                 path: '/admin/manage-users',
-                element: <AdminUserManagement />
+                element: <AdminRoute>
+                    <AdminUserManagement />
+                </AdminRoute>
             },
             {
                 path: '/admin/manage-agents',
-                element: <AdminAgentsManagement />
+                element: <AdminRoute>
+                    <AdminAgentsManagement />
+                </AdminRoute>
             },
             {
                 path: '/admin/manage-transactions',
-                element: <AdminManageTransaction />
+                element: <AdminRoute>
+                    <AdminManageTransaction />
+                </AdminRoute>
             },
         ],
     },

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { AuthPageTitle } from './Login';
+import { AuthPageTitle, EnableCookiesMessage } from './Login';
 import { saveUserInDB } from '../../utils/saveUserInDB';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -104,6 +104,7 @@ const Signup = () => {
                     {processing && <div className='absolute inset-0 bg-black/10 flex items-center justify-center rounded-lg'><span className='loading loading-spinner loading-lg text-primary m-auto'></span></div>}
                 </div>
             </div>
+            <EnableCookiesMessage />
         </div>
     );
 };

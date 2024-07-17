@@ -4,10 +4,10 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import askConfirm from './askConfirm';
 import toast, { } from "react-hot-toast";
 
-const SendMoneyModal = ({ setShowModal, currentUser, refetch }) => {
+const AgentAcceptCashInRequestModal = ({ setShowModal, currentUser, refetch, defaultNumber, defaultAmount, requestId, totalBalanceRefetch }) => {
     const axiosSecure = useAxiosSecure()
     const { register, handleSubmit } = useForm()
-
+    console.log({ setShowModal, currentUser, refetch, defaultNumber, defaultAmount, requestId });
     const onSubmit = async (data) => {
         try {
             if (data.amount < 50) {
@@ -29,10 +29,12 @@ const SendMoneyModal = ({ setShowModal, currentUser, refetch }) => {
             // post to db
             const res = await axiosSecure.post("/api/send-money", paymentInfo)
             console.log(res.data);
+            await axiosSecure.delete(`/api/agent/delete-request/${requestId}`)
             if (res.data?.updateSenderBalance?.modifiedCount > 0 && res.data?.updateRecipientBalance?.modifiedCount > 0) {
                 toast.success("transaction success")
             }
             refetch()
+            totalBalanceRefetch()
             setShowModal(false)
         } catch (error) {
             console.log("transaction error:", error);
@@ -49,15 +51,15 @@ const SendMoneyModal = ({ setShowModal, currentUser, refetch }) => {
                     <div className='mb-8'>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Enter Phone Number</span>
+                                <span className="label-text">Client's Phone Number</span>
                             </label>
-                            <input type="tel" {...register("recipientNumber")} className="input input-bordered" required />
+                            <input type="tel" readOnly defaultValue={defaultNumber} {...register("recipientNumber")} className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Enter Amount</span>
+                                <span className="label-text">Cash In Amount</span>
                             </label>
-                            <input type="number" {...register("amount")} className="input input-bordered" required />
+                            <input type="number" readOnly defaultValue={defaultAmount} {...register("amount")} className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -76,4 +78,4 @@ const SendMoneyModal = ({ setShowModal, currentUser, refetch }) => {
     );
 };
 
-export default SendMoneyModal;
+export default AgentAcceptCashInRequestModal;

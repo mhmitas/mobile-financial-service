@@ -87,6 +87,7 @@ const Login = () => {
                     <p className='my-1'>Don't have an account? Please <Link to="/sign-up" className='link link-primary'>Sign Up</Link> </p>
                 </div>
             </div>
+            <EnableCookiesMessage />
         </div>
     );
 };
@@ -97,5 +98,14 @@ export default Login;
 export function AuthPageTitle(params) {
     return (
         <span className='font-bold bg-gradient-to-r from-rose-500 via-blue-600 to-blue-500 text-white px-[12px] py-1 rounded-md cursor-default'>MhFins</span>
+    )
+}
+
+export function EnableCookiesMessage() {
+    return (
+        <p className='fixed bg-blue-500 border border-blue-500 p-4 rounded-md bottom-10 left-10 text-white flex flex-col items-center justify-center'>
+            <span className='text-lg font-bold'>We Use Cookies</span>
+            <span>Please enable third party Cookies</span>
+        </p>
     )
 }

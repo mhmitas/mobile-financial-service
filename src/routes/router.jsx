@@ -15,6 +15,8 @@ import AdminAgentsManagement from '../pages/admin/AdminManageAgents';
 import AdminRoute from './AdminRoutes';
 import AgentRoute from './AgentRoute';
 import UserRoute from './UserRoute';
+import AgentCashInRequests from '../pages/agent/AgentCashInRequests';
+import AgentCashOutRequests from '../pages/agent/AgentCashOutRequests';
 
 const router = createBrowserRouter([
     {
@@ -39,7 +41,7 @@ const router = createBrowserRouter([
                 path: '/agent-dashboard',
                 element: <AgentRoute>
                     <AgentDashboard />
-                </AgentRoute>
+                </AgentRoute>,
             },
             // admin's routes
             {

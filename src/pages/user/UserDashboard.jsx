@@ -4,9 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import SendMoneyModal from '../../components/modals/SendMoneyModal';
+import AddMoneyModal from '../../components/modals/AddMoneyModal';
 
 const UserDashboard = () => {
     const [showSendMoneyModal, setShowSendMoneyModal] = useState(false)
+    const [showAddMoneyModal, setShowAddMoneyModal] = useState(false)
     const axiosSecure = useAxiosSecure()
     const { user } = useAuth()
 
@@ -31,22 +33,23 @@ const UserDashboard = () => {
 
                     <div className="stat place-items-center">
                         <div className="stat-title">Total Transactions</div>
-                        <div className="stat-value text-secondary">4,200</div>
+                        <div className="stat-value text-secondary">4</div>
                     </div>
 
                     <div className="stat place-items-center">
                         <div className="stat-title">Pending Payments</div>
-                        <div className="stat-value">1,200</div>
+                        <div className="stat-value">1</div>
                     </div>
                 </div>
                 <div className='flex flex-wrap items-center gap-4'>
                     <span onClick={() => setShowSendMoneyModal(true)} className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info'>Send Money</span>
-                    <span className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info'>Cash Out</span>
-                    <span className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info'>Add Money</span>
+                    <span onClick={() => setShowAddMoneyModal(true)} className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info'>Cash In</span>
+                    <span className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info tooltip' data-tip="Hard Coded">Cash Out</span>
                     <span className='card-body cursor-pointer shadow rounded-md bg-primary text-xl font-bold text-primary-content text-center hover:bg-info tooltip' data-tip="Hard Coded">Payment</span>
                 </div>
             </div>
             {showSendMoneyModal && <SendMoneyModal setShowModal={setShowSendMoneyModal} currentUser={user} refetch={refetch} />}
+            {showAddMoneyModal && <AddMoneyModal setShowModal={setShowAddMoneyModal} currentUser={user} refetch={refetch} />}
         </section>
     );
 };

@@ -15,8 +15,8 @@ const ConfirmModal = ({ message, description, onConfirm, onCancel }) => {
             <div className="bg-white text-slate-950 rounded-lg shadow-lg p-6 w-96">
                 <h2 className="mb-2">Confirm Action</h2>
                 <div className='mb-6'>
-                    <p className="text-lg font-semibold">{message}</p>
-                    {description && <p className="my-2">{description}</p>}
+                    <div className="text-lg font-semibold">{message}</div>
+                    {description && <div className="my-2">{description}</div>}
                 </div>
                 <div className="flex justify-end space-x-4">
                     <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded transition-transform transform hover:bg-blue-600 active:scale-95" onClick={onConfirm}>

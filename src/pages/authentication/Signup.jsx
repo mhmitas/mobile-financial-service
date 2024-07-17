@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AuthPageTitle } from './Login';
 import { saveUserInDB } from '../../utils/saveUserInDB';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import LoadingSpinner from '../../components/common/loading-components/LoadingSpinner';
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -37,6 +38,13 @@ const Signup = () => {
             setErrorMessage(err.message?.slice(10))
             setProcessing(false)
         }
+    }
+
+    if (authLoading) {
+        return <LoadingSpinner />
+    }
+    if (user) {
+        return <Navigate replace to="/" />
     }
 
     return (

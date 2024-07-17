@@ -10,7 +10,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className={`fixed bg-base-200 duration-200 md:translate-x-0 overflow-y-auto z-20 h-screen w-64 border`}
+            className={`fixed bg-base-100 duration-200 md:translate-x-0 overflow-y-auto z-20 h-screen w-64 border-r`}
         >
             <div className='flex flex-col justify-between h-full'>
                 <div>

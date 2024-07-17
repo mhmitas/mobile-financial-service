@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { identifyInput } from '../../utils/utils';
 import { axiosInstance } from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
+import LoadingSpinner from '../../components/common/loading-components/LoadingSpinner';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -14,7 +15,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm()
-    const { setUser } = useAuth()
+    const { setUser, user, authLoading } = useAuth()
 
     const onSubmit = async (data) => {
         setProcessing(true)
@@ -38,6 +39,13 @@ const Login = () => {
             toast.error(err?.response?.data?.message)
             setProcessing(false)
         }
+    }
+
+    if (authLoading) {
+        return <LoadingSpinner />
+    }
+    if (user) {
+        return <Navigate to="/" />
     }
 
     return (
@@ -71,7 +79,9 @@ const Login = () => {
                             {errors.pin && errors.pin.type === "maxLength" && (<span className='text-error'>Pin must be 5 numbers</span>)}
                         </div>
                         <div className="form-control mt-6">
-                            <button type="submit" className="btn btn-primary text-lg">Sign In</button>
+                            <button disabled={processing} type="submit" className="btn btn-primary text-lg">
+                                {processing ? <span className='loading loading-spinner text-primary'></span> : "Log In"}
+                            </button>
                         </div>
                     </form>
                     <p className='my-1'>Don't have an account? Please <Link to="/sign-up" className='link link-primary'>Sign Up</Link> </p>

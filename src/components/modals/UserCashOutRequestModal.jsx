@@ -1,10 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 import askConfirm from './askConfirm';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
-const AddMoneyModal = ({ setShowModal, currentUser, refetch }) => {
+const UserCashOutRequestModal = ({ setShowModal, currentUser, refetch }) => {
     const axiosSecure = useAxiosSecure()
     const { register, handleSubmit } = useForm()
 
@@ -13,7 +13,7 @@ const AddMoneyModal = ({ setShowModal, currentUser, refetch }) => {
             if (parseFloat(data.amount) < 50) {
                 return toast.error("Less than 50 taka is now allow")
             }
-            const ask = await askConfirm("Are you sure? Do you want to make this cash in request?", <div className=' font-semibold text-primary'>
+            const ask = await askConfirm("Are you sure? Do you want to make this cash out request?", <div className=' font-semibold text-primary'>
                 <p>Agent Phone: {data?.agentNumber}</p>
                 <p>Amount: {data?.amount} BDT</p>
             </div>)
@@ -24,19 +24,19 @@ const AddMoneyModal = ({ setShowModal, currentUser, refetch }) => {
                 agentNumber: data.agentNumber,
                 amount: data?.amount,
                 userNumber: currentUser?.number,
-                requestType: "cash-in",
+                requestType: "cash-out",
                 pin: data?.pin
             }
             const res = await axiosSecure.post(`/api/user/cash-request`, requestData)
             console.log(res.data);
             if (res.data?.insertedId) {
-                toast.success("Your request has been passed to the agent. Please wait until the agent approves your request")
+                toast.success("Your cash out request has been passed to the agent. Please wait until the agent approves your request")
             }
             refetch()
             setShowModal(false)
         } catch (error) {
             toast.error(error?.response?.data?.message || "Something went wrong!!!")
-            console.error("cash in req error:", error);
+            console.error("cash out req error:", error);
             setShowModal(false)
         }
     }
@@ -76,4 +76,4 @@ const AddMoneyModal = ({ setShowModal, currentUser, refetch }) => {
     );
 };
 
-export default AddMoneyModal;
+export default UserCashOutRequestModal;

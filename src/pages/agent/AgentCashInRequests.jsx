@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import CenterLoadingComponent from '../../components/common/loading-components/CenterLoadingComponent';
-import AgentCashInRequestsTableRow from '../../components/table-rows/AgentCashInRequestsTableRow';
+import AgentCashInRequestsTableRow from '../../components/table-rows/agent-table-rows/AgentCashInRequestsTableRow';
 
 const AgentCashInRequests = ({ user, totalBalanceRefetch }) => {
     const axiosSecure = useAxiosSecure()
@@ -10,7 +10,7 @@ const AgentCashInRequests = ({ user, totalBalanceRefetch }) => {
     const { data: requests = [], isPending, refetch } = useQuery({
         queryKey: ["agent-cash-in-requests"],
         queryFn: async () => {
-            const { data } = await axiosSecure(`/api/agent/cash-in-requests/${user?.email}`)
+            const { data } = await axiosSecure(`/api/agent/cash-requests/${user?.email}?requestType=cash-in`)
             // console.log(data);
             return data
         }

@@ -52,7 +52,7 @@ const AgentDashboard = () => {
             </div>
             <div>
                 {showRequests === "cash-in-requests" && <AgentCashInRequests user={user} totalBalanceRefetch={totalBalanceRefetch} />}
-                {showRequests === "cash-out-requests" && <AgentCashOutRequests />}
+                {showRequests === "cash-out-requests" && <AgentCashOutRequests user={user} totalBalanceRefetch={totalBalanceRefetch} />}
             </div>
         </section>
     );

@@ -15,8 +15,8 @@ import AdminAgentsManagement from '../pages/admin/AdminManageAgents';
 import AdminRoute from './AdminRoutes';
 import AgentRoute from './AgentRoute';
 import UserRoute from './UserRoute';
-import AgentCashInRequests from '../pages/agent/AgentCashInRequests';
-import AgentCashOutRequests from '../pages/agent/AgentCashOutRequests';
+import UserTransactionHistoryPage from '../pages/user/UserTransactionHistoryPage';
+import AgentTransactionsHistoryPage from '../pages/agent/AgentTransactionsHistoryPage';
 
 const router = createBrowserRouter([
     {
@@ -36,11 +36,23 @@ const router = createBrowserRouter([
                     <UserDashboard />
                 </UserRoute>
             },
+            {
+                path: "/user-transaction-history",
+                element: <UserRoute>
+                    <UserTransactionHistoryPage />
+                </UserRoute>
+            },
             // agent's routes
             {
                 path: '/agent-dashboard',
                 element: <AgentRoute>
                     <AgentDashboard />
+                </AgentRoute>,
+            },
+            {
+                path: '/agent-transaction-history',
+                element: <AgentRoute>
+                    <AgentTransactionsHistoryPage />
                 </AgentRoute>,
             },
             // admin's routes

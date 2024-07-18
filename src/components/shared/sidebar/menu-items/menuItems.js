@@ -19,7 +19,6 @@ const adminSidebarMenuItems = [
     { name: "Manage Users", path: "/admin/manage-users", icon: FaUsers },
     { name: "Manage Agents", path: "/admin/manage-agents", icon: MdSupervisorAccount },
     { name: "Transaction Management", path: "/admin/manage-transactions", icon: BiTransfer },
-    { name: "Transaction History", path: "/admin-transaction-history", icon: FaHistory },
 ]
 
 

@@ -7,10 +7,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import queryString from 'query-string';
 import CenterLoadingComponent from '../../components/common/loading-components/CenterLoadingComponent';
 import AllUsersPageTableRow from '../../components/table-rows/admin-table-rows/AllUsersPageTableRow';
+import { FaSearch } from 'react-icons/fa';
 
 const AdminUserManagement = () => {
     const navigate = useNavigate()
     const axiosSecure = useAxiosSecure()
+    const [searchTexts, setSearchText] = useState("")
     const [searchParams, setSearchParams] = useSearchParams()
 
 
@@ -26,13 +28,21 @@ const AdminUserManagement = () => {
 
 
     const { data: users = [], isPending, refetch } = useQuery({
-        queryKey: ["admin-all-users", searchParams.get('role')],
+        queryKey: ["admin-all-users", searchParams.get('role'), searchTexts],
         queryFn: async () => {
-            const { data } = await axiosSecure(`/api/admin/all-users?role=${searchParams.get("role")}`)
+            const { data } = await axiosSecure(`/api/admin/all-users?role=${searchParams.get("role")}&searchText=${searchTexts}`)
             console.log(data);
             return data
         }
     })
+
+
+    async function handleSearch(e) {
+        e.preventDefault()
+        setSearchText(e.target.search.value)
+        // console.log(e.target.search.value);
+        refetch()
+    }
 
     return (
         <div className="my-container min-h-screen">
@@ -45,9 +55,10 @@ const AdminUserManagement = () => {
                         <div>
                             <AllUsersPageTabs />
                         </div>
-                        <div>
-                            <input className='input input-bordered input-sm p-4' type="text" placeholder='🔎 Search user...' />
-                        </div>
+                        <form onSubmit={handleSearch} className='flex gap-2'>
+                            <input onChange={e => e.target.value.length === 0 && setSearchText('')} className='input input-bordered input-sm p-4' type="text" placeholder='🔎 Search user...' name='search' />
+                            <button className='btn btn-sm btn-primary'><FaSearch /></button>
+                        </form>
                     </div>
                     <div className="overflow-x-auto relative">
                         {isPending && <CenterLoadingComponent />}
